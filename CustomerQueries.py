@@ -24,6 +24,12 @@ class CustomerQueries:
             print("\nYou have successfully registered\n")
         except IndexError:
             print("Everything is now printed.")
+        
+    def insert_customerID(self):        
+        self.cursor.execute(
+                            "INSERT INTO customer (CustomerID, Cname, CAge, CContactNum, State, City, Email, Balance)"
+                            "VALUES(1, 'John Doe', 30, '1234567890', 'California','Los Angeles', 'john.doe@example.com', 0);"
+                            )
 
     def retrieve_cart(self):
         try:
