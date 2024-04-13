@@ -4,15 +4,10 @@ from tabulate import tabulate
 Terminologies
 
 '''
-class CustomerQueries: 
+class Customer: 
     def __init__(self):                                                                                                    #constructor
         self.connection = mysql.connector.connect(host="localhost", user="root",password="", database="miggymart")  #connection attribute
         self.cursor = self.connection.cursor()
-        if self.connection.is_connected():  #print('Connected Successfully')
-            print()
-        else:
-            print('Failed to connect')
-            self.connection.close()
     
     def customer_registration(self,customer_id,customer_name,customer_age,customer_contactNum,customer_state,customer_city,customer_email,customer_balance,customer_password):
         try:
@@ -24,12 +19,10 @@ class CustomerQueries:
             print("\nYou have successfully registered\n")
         except IndexError:
             print("Everything is now printed.")
-        
-    def insert_customerID(self):        
-        self.cursor.execute(
-                            "INSERT INTO customer (CustomerID, Cname, CAge, CContactNum, State, City, Email, Balance)"
-                            "VALUES(1, 'John Doe', 30, '1234567890', 'California','Los Angeles', 'john.doe@example.com', 0);"
-                            )
+        except mysql.connector.IntegrityError:
+            print("\n[Customer ID is already taken]")
+            self.connection.rollback()
+
 
     def retrieve_cart(self):
         try:

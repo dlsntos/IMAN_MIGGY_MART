@@ -6,12 +6,6 @@ class Manager:
     def __init__(self):                                                                                                    #constructor
         self.connection = mysql.connector.connect(host="localhost", user="root",password="", database="miggymart")  #connection attribute
         self.cursor = self.connection.cursor()
-
-        if self.connection.is_connected():  #print('Connected Successfully')
-            print()
-        else:
-            print('Failed to connect')
-            self.connection.close()
     #def manager_login(self,manager_id,password):
         
     def add_item_to_inventory(self, productID, product_description, product_type, price, date, quantity):

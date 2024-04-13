@@ -1,5 +1,5 @@
 from tabulate import tabulate 
-from CustomerQueries import CustomerQueries
+from Customer import Customer
 from Display import Display
 from Manager import Manager
 import mysql.connector
@@ -25,7 +25,7 @@ while Flag:
             while Flag:  
                 try:
                     if user == 1:#If user chooses customer mode
-                        customerquery = CustomerQueries()
+                        customer = Customer()
                         print("\n[1] Register")
                         print("[2] Login")
                         choice = int(input("Enter Choice: "))
@@ -42,7 +42,7 @@ while Flag:
                             customer_balance = int(input("Enter Customer Balance: "))
                             customer_password = input("Set Customer Password: ")
                             display.clear_screan()
-                            customerquery.customer_registration(customer_id,customer_name,customer_age,customer_contactNum,customer_state,customer_city,customer_email,customer_balance,customer_password) 
+                            customer.customer_registration(customer_id,customer_name,customer_age,customer_contactNum,customer_state,customer_city,customer_email,customer_balance,customer_password) 
                         elif choice == 2:#customer login
                             customer_id = int(input("Enter Customer ID: "))
                             customer_password = input("Enter Customer Password: ")
@@ -72,27 +72,27 @@ while Flag:
                                             if product_id == "" or customer_id == "" :
                                                 print("ID is required, Please try again")
                                             else:
-                                                customerquery.add_cart(int(product_id), int(customer_id))
+                                                customer.add_cart(int(product_id), int(customer_id))
                                     
                                         elif choice == 2:
                                             display.clear_screan()
-                                            customerquery.retrieve_cart()
+                                            customer.retrieve_cart()
                                             product_id = input("Enter Product ID: ")
                                             cart_id = input("Enter Cart ID: ")
                                             if product_id == "" or cart_id == "" :
                                                 print("\nID is required, Please try again")
                                             else:
-                                                customerquery.remove_item(int(product_id), int(cart_id))
+                                                customer.remove_item(int(product_id), int(cart_id))
                                             pass
 
                                         elif choice == 3:
                                             display.clear_screan()
-                                            customerquery.retrieve_cart()
+                                            customer.retrieve_cart()
                                             pass
 
                                         elif choice == 4:
                                             display.clear_screan()
-                                            customerquery.checkout()
+                                            customer.checkout()
                                             pass
 
                                         elif choice == 5:
@@ -107,14 +107,14 @@ while Flag:
                                             if type_id.lower() != "bakery" or type_id.lower() != "dairy" or type_id.lower() != "fruit" or type_id.lower() != "vegetable" or type_id.lower() != "meat" or type_id.lower() != "seafood":
                                                 print("Category not found")
                                             else:
-                                                customerquery.category_search(type_id)
+                                                customer.category_search(type_id)
                                                 Flag = False
 
                                         elif choice == 6:
                                             display.clear_screan()
-                                            customerquery.retrieve_inventory()
+                                            customer.retrieve_inventory()
                                         elif choice == 7:
-                                            customerquery.exit_program_clear_cart()
+                                            customer.exit_program_clear_cart()
                                             print("Thank you for using our program!")
                                             exit()
                                         else:
