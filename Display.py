@@ -9,5 +9,5 @@ class Display:
         colored_text = getattr(Fore, color.upper()) + text + colorama.Fore.RESET
         print(colored_text)
 
-    def clear_screan(self):
+    def clear_screan(self):#cleae screen after output
         os.system('cls' if os.name == 'nt' else 'clear')

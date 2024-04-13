@@ -7,7 +7,7 @@ class Manager:
         self.connection = mysql.connector.connect(host="localhost", user="root",password="", database="miggymart")  #connection attribute
         self.cursor = self.connection.cursor()
 
-        if self.connection.is_connected():  #print('Connected Successfully')
+        if self.connection.is_connected():#print('Connected Successfully')
             print()
         else:
             print('Failed to connect')
