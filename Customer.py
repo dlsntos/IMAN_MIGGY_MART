@@ -35,7 +35,7 @@ class Customer:
             print("Records:", self.cursor.rowcount)                                                                        #Prints the records of the cart table
             headers = [i[0] for i in self.cursor.description]                                                              #loop for column names
             rows = [[str(cell) for cell in record] for record in cart]                                                     #prints each row
-
+            display.clear_screan()
             print(tabulate(rows, headers=headers, tablefmt='grid'))                                                        #call tabulate import, format table display and print
             
         #Catches a Index outbound exception
@@ -61,10 +61,15 @@ class Customer:
                     self.cursor.execute("INSERT INTO cart (cartID, ProductID, description, type, expirationdate, price, Quantity, CustomerID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (cartID, product_id, item[0], item[1], item[3], item[4], 1, customer_id))  #adds item to cart
                     self.cursor.execute("UPDATE inventory SET Quantity = Quantity - 1 WHERE ProductID = %s", (product_id,))
                     self.connection.commit()
+                    display.clear_screan()
                     display.print_c("Item added to cart successfully","green")
                 else:
+                    display.clear_screan()
+                    display.clear_screan()
                     display.print_c("Item out of stock","red")
             else:
+                display.clear_screan()
+                display.clear_screan()
                 display.print_c("Item not found in inventory","red")
         except mysql.connector.Error as err:
             print("Error:", err)
@@ -74,7 +79,8 @@ class Customer:
             # Delete item from cart
             self.cursor.execute( "DELETE FROM cart WHERE ProductID = %s AND cartID = %s", (product_id, cart_id,))
             self.cursor.execute( "UPDATE inventory SET Quantity = Quantity + 1 WHERE ProductID = %s", (product_id,))
-            self.connection.commit() 
+            self.connection.commit()
+            display.clear_screan()
             display.print_c("Item deleted from cart successfully","green")
         except mysql.connector.Error as err:
             print("Error:", err)
@@ -93,7 +99,7 @@ class Customer:
             print("Records:", self.cursor.rowcount)                                                                        #Prints the records of the cart table
             headers = [i[0] for i in self.cursor.description]                                                              #loop for column names
             rows = [[str(cell) for cell in record] for record in inventory]                                                #prints each row
-
+            display.clear_screan()
             print(tabulate(rows, headers=headers, tablefmt='grid'))                                                        #call tabulate import, format table display and print
             
         #Catches a Index inbound error
@@ -111,10 +117,11 @@ class Customer:
                 payment = float(input("Enter you payment here: "))
 
                 if payment < total:
+                    display.clear_screan()
                     print("\nPlease enter correct amount.")
                 
                 else:
-
+                    display.clear_screan()
                     print("Change: P",total - payment)
                     self.cursor.execute('SELECT * FROM cart')
                     cart = self.cursor.fetchall()
@@ -136,7 +143,8 @@ class Customer:
             self.cursor.execute("SELECT * FROM inventory WHERE type = %s", (type_id,))
             inventory = self.cursor.fetchall()
             headers = [i[0] for i in self.cursor.description]                                                              
-            rows = [[str(cell) for cell in record] for record in inventory] 
+            rows = [[str(cell) for cell in record] for record in inventory]
+            display.clear_screan()
             print(tabulate(rows, headers=headers, tablefmt='grid'))
         except mysql.connector.Error as err:
             print("Error:", err)
@@ -161,7 +169,7 @@ class Customer:
             print("Records:", self.cursor.rowcount)                                                                        #Prints the records of the cart table
             headers = [i[0] for i in self.cursor.description]                                                              #loop for column names
             rows = [[str(cell) for cell in record] for record in inventory]                                                #prints each row
-
+            display.clear_screan()
             print(tabulate(rows, headers=headers, tablefmt='grid'))                                                        #call tabulate import, format table display and print
             
         #Catches a Index inbound error
@@ -205,7 +213,8 @@ class Customer:
                                 ,"WHERE type = %s", (type_id,))                                                          #by adding ',' type id can now be passed as a tuple.
             inventory = self.cursor.fetchall()
             headers = [i[0] for i in self.cursor.description]                                                              
-            rows = [[str(cell) for cell in record] for record in inventory] 
+            rows = [[str(cell) for cell in record] for record in inventory]
+            display.clear_screan()
             print(tabulate(rows, headers=headers, tablefmt='grid'))
 
         except mysql.connector.Error as err:

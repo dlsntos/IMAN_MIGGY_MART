@@ -71,6 +71,7 @@ while Flag:
                                     
                                         elif choice == 2:#Customer Login 
                                             display.clear_screan()
+                                            display.logo()
                                             customer.retrieve_cart()
                                             product_id = input("Enter Product ID: ")
                                             cart_id = input("Enter Cart ID: ")
@@ -82,16 +83,19 @@ while Flag:
 
                                         elif choice == 3:
                                             display.clear_screan()
+                                            display.logo()
                                             customer.retrieve_cart()
                                             pass
 
                                         elif choice == 4:
                                             display.clear_screan()
+                                            display.logo()
                                             customer.checkout()
                                             pass
 
                                         elif choice == 5:
                                             display.clear_screan()
+                                            display.logo()
                                             print("All categories: ")
                                             cursor.execute('select distinct(type) from inventory')
                                             types = cursor.fetchall()
@@ -107,9 +111,11 @@ while Flag:
 
                                         elif choice == 6:
                                             display.clear_screan()
+                                            display.logo()
                                             customer.retrieve_inventory()
                                         elif choice == 7:
                                             customer.exit_program_clear_cart()
+                                            display.logo()
                                             print("Thank you for using our program!")
                                             exit()
                                         else:
