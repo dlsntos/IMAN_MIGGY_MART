@@ -64,19 +64,17 @@ while Flag:
                                         display.customer_menu()
                                         choice = int(input("\nEnter Choice: "))
                                         
-                                        if choice == 1:#
-                                            try:
-                                                display.clear_screan()
-                                                product_id = input("Enter Product ID: ")
-                                                customer_id = input("Enter Customer ID: ")
-                                                if product_id == "" or customer_id == "" :
-                                                    print("ID is required, Please try again")
-                                                else:
-                                                    customer.add_cart(int(product_id), int(customer_id))
-                                            except ValueError:
-                                                print("test")
-
-                                        elif choice == 2: 
+                                        if choice == 1:
+                                            display.clear_screan()
+                        #Calls the retrieve_info function
+                                            product_id = input("Enter Product ID: ")
+                                            customer_id = input("Enter Customer ID: ")
+                                            if product_id == "" or customer_id == "" :
+                                                print("ID is required, Please try again")
+                                            else:
+                                                customer.add_cart(int(product_id), int(customer_id))
+                                                    
+                                        elif choice == 2:#Customer Login 
                                             display.clear_screan()
                                             display.logo()
                                             customer.retrieve_cart()
@@ -124,17 +122,17 @@ while Flag:
                                             print("Thank you for using our program!")
                                             exit()
                                         else:
-                                            print("!Invalid Choice")
+                                            display.print_c("!Invalid Choice","red")
                                             time.sleep(t)
                                             display.clear_screan()
-                                            continue
                                     else:
-                                        print("!Invalid credentials")
+                                        display.logo()
+                                        display.print_c("!Invalid credentials","red")
                                         time.sleep(t)
                                         display.clear_screan()
                                         break
                                 except ValueError:
-                                    print("!Invalid credentials")
+                                    display.print_c("!Invalid credentials","red")
                                     time.sleep(t)
                                     display.clear_screan()
                                 except mysql.connector.Error as err:
@@ -142,10 +140,10 @@ while Flag:
                                     time.sleep(t)
                                     display.clear_screan()
                         except ValueError:
-                            print("!Invalid credentials")
+                            display.print_c("!Invalid credentials","red")
                             time.sleep(t)
                             display.clear_screan()
-                    #choose Store Manager mode
+                #choose Store Manager mode
                 elif user == 2:
                     while Flag:
                         display.clear_screan()
@@ -193,13 +191,11 @@ while Flag:
                                         print("Thank you for using our program!")
                                         exit()
                                 else:
-                                    display.logo()
                                     display.print_c("Invalid credentials","red")
                                     time.sleep(t)
                                     display.clear_screan()
                                     break
                             except ValueError:
-                                display.logo()
                                 display.print_c("!Enter a valid value","red")
                                 time.sleep(t)
                                 display.clear_screan()
