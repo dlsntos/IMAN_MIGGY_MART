@@ -2,9 +2,11 @@ from tabulate import tabulate
 from Customer import Customer
 from Display import Display
 from Manager import Manager
+import winsound
 import mysql.connector
 import time
 t = 1.2 
+winsound.PlaySound("music.wav", winsound.SND_LOOP + winsound.SND_ASYNC)
 display = Display()
 mysqlconnect = mysql.connector.connect(host="localhost", user="root",password="", database="miggymart")
 cursor = mysqlconnect.cursor()
@@ -205,3 +207,4 @@ while Flag:
     else:
         print('Failed to connect')
         mysqlconnect.close()
+    
