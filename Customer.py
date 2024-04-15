@@ -5,7 +5,6 @@ from Display import Display
 display = Display()
 
 class Customer:
-    
 
     def __init__(self):                                                                                                    #constructor
         self.connection = mysql.connector.connect(host="localhost", user="root",password="", database="miggymart")  #connection attribute
@@ -224,6 +223,8 @@ class Customer:
             self.cursor.execute('delete from cart') 
             self.connection.commit() 
             display.print_c("\nCart Cleared!","green")
+
+        
 
         
 
