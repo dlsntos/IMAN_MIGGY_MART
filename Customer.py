@@ -1,7 +1,8 @@
 import mysql.connector
 from tabulate import tabulate
 from Display import Display
-
+import time
+t = 1.5
 display = Display()
 
 class Customer:
@@ -10,7 +11,8 @@ class Customer:
         self.connection = mysql.connector.connect(host="localhost", user="root",password="", database="miggymart")  #connection attribute
         self.cursor = self.connection.cursor()
     
-    def customer_registration(self,customer_id,customer_name,customer_age,customer_contactNum,customer_state,customer_city,customer_email,customer_balance,customer_password):
+    #Functions used to execute queries
+    def registration(self,customer_id,customer_name,customer_age,customer_contactNum,customer_state,customer_city,customer_email,customer_balance,customer_password):
         try:
             self.cursor.execute(
                             "INSERT INTO customer (CustomerID, Cname, CAge, CContactNum, State, City, Email, Balance, Password)"
@@ -27,6 +29,8 @@ class Customer:
             self.connection.rollback()
 
     def retrieve_cart(self):
+        display.clear_screan()
+        display.logo()
         try:
             self.cursor.execute('select * from cart')                                                                      #Command for subqueries
             cart = self.cursor.fetchall()
@@ -43,7 +47,6 @@ class Customer:
 
     def add_cart(self, product_id, customer_id):
         try:
-           
             self.cursor.execute("SELECT MAX(cartID) FROM cart")
             cartIDMax = self.cursor.fetchone()[0]
             if cartIDMax is None:
@@ -64,10 +67,8 @@ class Customer:
                     display.print_c("Item added to cart successfully","green")
                 else:
                     display.clear_screan()
-                    display.clear_screan()
                     display.print_c("Item out of stock","red")
             else:
-                display.clear_screan()
                 display.clear_screan()
                 display.print_c("Item not found in inventory","red")
         except mysql.connector.Error as err:
@@ -84,75 +85,10 @@ class Customer:
         except mysql.connector.Error as err:
             print("Error:", err)
 
-    def retrieve_inventory(self):
-        try:
-            self.cursor.execute("SELECT MAX(cartID) FROM cart")
-            cartIDMax = self.cursor.fetchone()[0]
-
-            if cartIDMax is None:
-                print("There are no items!")
-                
-            self.cursor.execute('SELECT * FROM inventory')                                                                 
-            inventory = self.cursor.fetchall()
-            customer = self.cursor.fetchall()
-            print("Records:", self.cursor.rowcount)                                                                        #Prints the records of the cart table
-            headers = [i[0] for i in self.cursor.description]                                                              #loop for column names
-            rows = [[str(cell) for cell in record] for record in inventory]                                                #prints each row
-            display.clear_screan()
-            print(tabulate(rows, headers=headers, tablefmt='grid'))                                                        #call tabulate import, format table display and print
-            
-        #Catches a Index inbound error
-        except IndexError:
-            display.print_c("Everything is now printed","red")
-
-    def checkout(self):
-        try:
-            self.cursor.execute("SELECT SUM(price) AS Total FROM cart")
-            total = self.cursor.fetchone()[0]
-            total = float(total)                                                      #set total as float, total from mysql is set as decimal.decimal and has conflicts with float in python which results to errors when trying to do arithmetic calculations with them
-            print("Total price in the cart: P",total)
-
-            while True:
-                payment = float(input("Enter you payment here: "))
-
-                if payment < total:
-                    display.clear_screan()
-                    print("\nPlease enter correct amount.")
-                
-                else:
-                    display.clear_screan()
-                    print("Change: P",total - payment)
-                    self.cursor.execute('SELECT * FROM cart')
-                    cart = self.cursor.fetchall()
-                    headers = [i[0] for i in self.cursor.description]                                                              
-                    rows = [[str(cell) for cell in record] for record in cart] 
-                    print("\nReceipt:")
-                    print(tabulate(rows, headers=headers, tablefmt='grid'))
-
-                    self.cursor.execute('delete from cart') 
-                    self.connection.commit()
-                    print("\nCart Cleared!")
-                    break                                                  
-
-        except mysql.connector.Error as err:
-            print("Error:", err)
-
-    def category_search(self, type_id):
-        try:
-            self.cursor.execute("SELECT * FROM inventory WHERE type = %s", (type_id,))
-            inventory = self.cursor.fetchall()
-            headers = [i[0] for i in self.cursor.description]                                                              
-            rows = [[str(cell) for cell in record] for record in inventory]
-            display.clear_screan()
-            print(tabulate(rows, headers=headers, tablefmt='grid'))
-        except mysql.connector.Error as err:
-            print("Error:", err)
-
     def exit_program_clear_cart(self):
             self.cursor.execute('delete from cart') 
             self.connection.commit() 
             display.print_c("\nCart Cleared!","green")
-
 
     def retrieve_inventory(self):
         try:
@@ -169,60 +105,134 @@ class Customer:
             headers = [i[0] for i in self.cursor.description]                                                              #loop for column names
             rows = [[str(cell) for cell in record] for record in inventory]                                                #prints each row
             display.clear_screan()
-            print(tabulate(rows, headers=headers, tablefmt='grid'))                                                        #call tabulate import, format table display and print
-            
+            print(tabulate(rows, headers=headers, tablefmt='grid'))                                                        #call tabulate import, format table display and print   
         #Catches a Index inbound error
         except IndexError:
             display.print_c("Everything is now printed","green")
 
     def checkout(self):
+        display.clear_screan()
+        display.logo()
         try:
             self.cursor.execute("SELECT SUM(price) AS Total FROM cart")
             total = self.cursor.fetchone()[0]
-            total = float(total)                                                      #set total as float, total from mysql is set as decimal.decimal and has conflicts with float in python which results to errors when trying to do arithmetic calculations with them
-            print("Total price in the cart: P",total)
+            if total is not None:
+                total = float(total)                                                      #set total as float, total from mysql is set as decimal.decimal and has conflicts with float in python which results to errors when trying to do arithmetic calculations with them
+                print("Total price in the cart: P",total)
 
-            while True:
-                payment = float(input("Enter you payment here: "))
+                while True:
+                    payment = float(input("Enter you payment here: "))
 
-                if payment < total:
-                    print("\nPlease enter correct amount.")
-                
-                else:
+                    if payment < total:
+                        print("\nPlease enter correct amount.")
+                    
+                    else:
 
-                    print("Change: P",total - payment)
-                    self.cursor.execute('SELECT * FROM cart')
-                    cart = self.cursor.fetchall()
-                    headers = [i[0] for i in self.cursor.description]                                                              
-                    rows = [[str(cell) for cell in record] for record in cart] 
-                    print("\nReceipt:")
-                    print(tabulate(rows, headers=headers, tablefmt='grid'))
+                        print("Change: P",total - payment)
+                        self.cursor.execute('SELECT * FROM cart')
+                        cart = self.cursor.fetchall()
+                        headers = [i[0] for i in self.cursor.description]                                                              
+                        rows = [[str(cell) for cell in record] for record in cart] 
+                        print("\nReceipt:")
+                        print(tabulate(rows, headers=headers, tablefmt='grid'))
 
-                    self.cursor.execute('delete from cart') 
-                    self.connection.commit()
-                    print("\nCart Cleared!")
-                    break                                                  
-
+                        self.cursor.execute('delete from cart') 
+                        self.connection.commit()
+                        print("\nCart Cleared!")
+                        break
+            else:
+                print("No items in the cart.")
+                time.sleep(t)
+                display.clear_screan()                                                  
         except mysql.connector.Error as err:
             print("Error:", err)
 
     def category_search(self, type_id):
         try:
-            self.cursor.execute( "SELECT * FROM inventory"
-                                ,"WHERE type = %s", (type_id,))                                                          #by adding ',' type id can now be passed as a tuple.
+            self.cursor.execute( "SELECT * FROM inventory WHERE type = %s", (type_id,))                                                          #by adding ',' type id can now be passed as a tuple.
             inventory = self.cursor.fetchall()
             headers = [i[0] for i in self.cursor.description]                                                              
             rows = [[str(cell) for cell in record] for record in inventory]
             display.clear_screan()
             print(tabulate(rows, headers=headers, tablefmt='grid'))
-
         except mysql.connector.Error as err:
             print("Error:", err)
 
     def exit_program_clear_cart(self):
             self.cursor.execute('delete from cart') 
-            self.connection.commit() 
+            self.connection.commit()
+            display.clear_screan() 
             display.print_c("\nCart Cleared!","green")
+
+    #Customer Functions used in Menus class
+    def customerRegistration(self):
+        display.clear_screan()
+        display.logo()
+        print("[Customer Registration]\n")
+        customer_id = int(input("Enter Customer ID: "))
+        customer_name = input("Enter Customer Name: ")
+        customer_age = int(input("Enter Customer Age: "))
+        customer_contactNum = int(input("Enter Customer No.: "))
+        customer_state = input("Enter Customer State: ")
+        customer_city = input("Enter Customer City: ")
+        customer_email = input("Enter Customer email: ")
+        customer_balance = int(input("Enter Customer Balance: "))
+        customer_password = input("Set Customer Password: ")
+        display.clear_screan()
+        self.registration(customer_id,customer_name,customer_age,customer_contactNum,customer_state,customer_city,customer_email,customer_balance,customer_password) 
+    
+    def addtocart(self):
+        try:
+            display.clear_screan()
+            display.logo()
+            product_id = input("Enter Product ID: ")
+            customer_id = input("Enter Customer ID: ")
+            if product_id == "" or customer_id == "" :
+                display.print_c("ID is required, Please try again","red")
+                time.sleep(t)
+                display.clear_screan()
+            else:
+                self.add_cart(int(product_id), int(customer_id))
+        except ValueError:
+            display.print_c("\n!Enter a valid value","red")
+            time.sleep(t)
+            display.clear_screan()
+
+    def removeFromCart(self):
+        try:
+            display.clear_screan()
+            display.logo()
+            self.retrieve_cart()
+            product_id = input("Enter Product ID: ")
+            cart_id = input("Enter Cart ID: ")
+            if product_id == "" or cart_id == "" :
+                display.print_c("\nID is required, Please try again","red")
+                time.sleep(t)
+                display.clear_screan()
+            else:
+                self.remove_item(int(product_id), int(cart_id))
+        except ValueError:
+            display.print_c("\n!Enter a valid value","red")
+            time.sleep(t)
+            display.clear_screan()
+    
+    def showCategory(self):
+        display.clear_screan()
+        display.logo()
+        self.cursor.execute('SELECT DISTINCT(type) FROM inventory')
+        types = self.cursor.fetchall()
+        valid_types = [index[0].lower() for index in types]
+        headers = [i[0] for i in self.cursor.description]
+        rows = [[str(cell) for cell in record] for record in types]
+        print(tabulate(rows, headers=headers, tablefmt='grid'))
+        type_id = input("Enter a category here: ").lower()
+        if type_id not in valid_types:
+            display.print_c("Category not found","red")
+            time.sleep(t)
+            display.clear_screan()
+        else: 
+            display.clear_screan()
+            self.category_search(type_id)
 
         
 

@@ -25,19 +25,17 @@ class Display:
 
     def start_menu(self):
         colorama.init()
-        sign = (f"{Fore.GREEN}\n[Please Enter a Login Option]\n{Fore.RESET}")
-        menu = (f"{Fore.YELLOW}"
+        menu = (f"{Fore.BLUE}"
                f"[1] Customer\n"
                f"[2] Manager\n"
                f"[3] Exit\n"
                f"--------------------------------"
                f"{Fore.RESET}")
-        print(sign)
         print(menu)
 
     def registration_menu(self):
         colorama.init()
-        menu =(f"{Fore.YELLOW}"
+        menu =(f"{Fore.BLUE}"
                f"[Customer Registration]\n\n"
                f"[1] Register\n"
                f"[2] Login\n"
@@ -46,7 +44,7 @@ class Display:
         print(menu)
 
     def customer_menu(self):
-        menu = (f"{Fore.YELLOW}"
+        menu = (f"{Fore.BLUE}"
                 f"\nCustomer Cart:"
                 f"\n[1] Add to Cart"
                 f"\n[2] Remove from Cart"
@@ -61,7 +59,7 @@ class Display:
         print(menu)
 
     def manager_menu(self):
-        menu =(f"{Fore.YELLOW}"
+        menu =(f"{Fore.BLUE}"
                f"\n[ Miggy Mart ADMIN ACCESS !!! ]\n"
                f"[1] Add item to inventory\n"
                f"[2] Remove Expired Item\n"
