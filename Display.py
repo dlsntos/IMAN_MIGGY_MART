@@ -3,18 +3,20 @@ import colorama
 import os
 """"""
 class Display:
-    # this function changes the color of a single line of string
+    #this function changes the color of a single line of string
     def print_c(self, text, color):
-        colorama.init()# this function is used to initialize the colorama package and for the colors to appear in the exe file
+        #colorama.init() is used to initialize the colorama package and for the colors to appear in the exe file
+        colorama.init()
         colored_text = getattr(Fore, color.upper()) + text + colorama.Fore.RESET
         print(colored_text)
 
-    # this function clears the output
+    #this function clears the previous output and makes the system look clean and not cluttered
     def clear_screan(self):
         os.system('cls' if os.name == 'nt' else 'clear')
 
+    #this function stores the official logo of our system
     def logo(self):
-        colorama.init()#this function is used to initialize the colorama package and for the colors to appear in the exe file
+        colorama.init()
         logo = f"""{Fore.CYAN}
         ███╗░░░███╗██╗░██████╗░░██████╗░██╗░░░██╗  ███╗░░░███╗░█████╗░██████╗░████████╗
         ████╗░████║██║██╔════╝░██╔════╝░╚██╗░██╔╝  ████╗░████║██╔══██╗██╔══██╗╚══██╔══╝
@@ -24,6 +26,7 @@ class Display:
         ╚═╝░░░░░╚═╝╚═╝░╚═════╝░░╚═════╝░░░░╚═╝░░░  ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░\n{Fore.RESET}"""
         print(logo)
 
+    #this function stores the starting menu screen
     def start_menu(self):
         colorama.init()
         menu = (f"{Fore.BLUE}"
@@ -32,10 +35,13 @@ class Display:
                f"[3] Exit\n"
                f"--------------------------------"
                f"{Fore.RESET}")
+        self.logo()
         print(menu)
 
+    # this function stores the registration and login menu for customers
     def registration_menu(self):
         colorama.init()
+        self.logo()
         menu =(f"{Fore.BLUE}"
                f"[Customer Registration]\n\n"
                f"[1] Register\n"
@@ -44,6 +50,7 @@ class Display:
                f"{Fore.RESET}")
         print(menu)
 
+    #this function stores the main customer menu
     def customer_menu(self):
         menu = (f"{Fore.BLUE}"
                 f"\nCustomer Cart:"
@@ -57,15 +64,18 @@ class Display:
                 f"\n[7] Exit Program\n"
                 f"--------------------------------"
                 f"{Fore.RESET}")
+        self.logo()
         print(menu)
 
+    #
     def manager_menu(self):
         menu =(f"{Fore.BLUE}"
-               f"\n[ Miggy Mart ADMIN ACCESS !!! ]\n"
+               f"\n[ ADMIN ACCESS !!! ]\n"
                f"[1] Add item to inventory\n"
                f"[2] Remove Expired Item\n"
                f"[3] Update Item Prices\n"
                f"[4] Exit\n"
                f"--------------------------------"
                f"{Fore.RESET}")
+        self.logo()
         print(menu)

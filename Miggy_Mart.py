@@ -13,7 +13,6 @@ winsound.PlaySound("music.wav", winsound.SND_LOOP + winsound.SND_ASYNC)
 display = Display()
 
 while True:
-    display.logo()#testing
     display.start_menu()
     try:
         user = int(input("\nEnter choice here: "))
@@ -23,6 +22,7 @@ while True:
             time.sleep(delay)
             display.clear_screan()
             continue
+        
         while True:
             try:
                 if user == 1:

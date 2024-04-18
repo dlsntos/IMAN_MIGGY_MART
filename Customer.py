@@ -187,6 +187,15 @@ class Customer:
         display.clear_screan()
         self.registration(customer_id,customer_name,customer_age,customer_contactNum,customer_state,customer_city,customer_email,customer_balance,customer_password) 
     
+    def login(self):
+        display.clear_screan()
+        display.logo()
+        customer_id = int(input("Enter Customer ID: "))
+        customer_password = input("Enter Customer Password: ")
+        display.clear_screan()
+        self.cursor.execute("SELECT * FROM customer WHERE customerid = %s AND password = %s", (customer_id , customer_password))
+        return self.cursor.fetchone()
+    
     def addtocart(self):
         try:
             display.clear_screan()
@@ -239,6 +248,8 @@ class Customer:
         else: 
             display.clear_screan()
             self.category_search(type_id)
+
+    
 
         
 

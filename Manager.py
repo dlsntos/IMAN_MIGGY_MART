@@ -44,6 +44,15 @@ class Manager:
     
 
     #Manager Functions
+    def login(self):
+        display.clear_screan()
+        display.logo()
+        manager_id = int(input("Enter Manager ID: "))
+        manager_password = input("Enter password: ")
+        display.clear_screan()
+        self.cursor.execute("SELECT * FROM manager WHERE managerid = %s AND password = %s", (manager_id, manager_password))
+        return self.cursor.fetchone()
+    
     def add_item_to_inventory(self):
         display.clear_screan()
         display.logo()
