@@ -6,7 +6,7 @@ import time
 
 menu = Menu()
 
-t = 1.2 
+delay = 1.2 
 
 winsound.PlaySound("music.wav", winsound.SND_LOOP + winsound.SND_ASYNC)
 
@@ -20,7 +20,7 @@ while True:
 
         if user < 1 or user > 3:
             display.print_c("\n!Out of range please try again","red")
-            time.sleep(t)
+            time.sleep(delay)
             display.clear_screan()
             continue
         while True:
@@ -34,9 +34,9 @@ while True:
                     exit()
             except ValueError:
                 display.print_c("\n!Enter a valid value","red")
-                time.sleep(t)
+                time.sleep(delay)
                 display.clear_screan()
     except ValueError:
         display.print_c("\n!Enter a valid value","red")
-        time.sleep(t)
+        time.sleep(delay)
         display.clear_screan()

@@ -7,7 +7,7 @@ import time
 display = Display()
 customer = Customer()
 manager = Manager()
-t = 1.2
+delay = 1.2
 mysqlconnect = mysql.connector.connect(host = "localhost", user = "root",password = "", database = "miggymart")
 cursor = mysqlconnect.cursor()
 
@@ -53,57 +53,68 @@ class Menu:
                         else:
                             display.logo()
                             display.print_c("!Invalid credentials","red")
-                            time.sleep(t)
+                            time.sleep(delay)
                             display.clear_screan()
                     else:
                         display.logo()
                         display.print_c("!Invalid credentials","red")
-                        time.sleep(t)
+                        time.sleep(delay)
                         display.clear_screan()
                         break
                 except ValueError:
                     display.print_c("!Invalid credentials","red")
-                    time.sleep(t)
+                    time.sleep(delay)
                     display.clear_screan()
     def manager(self):
-        display.clear_screan()
-        display.logo()
-        manager_id = int(input("Enter Manager ID: "))
-        manager_password = input("Enter password: ")
         while True:
+            display.clear_screan()
+            display.logo()
+            manager_id = int(input("Enter Manager ID: "))
+            manager_password = input("Enter password: ")
             try:
                 display.clear_screan()
                 cursor.execute("SELECT * FROM manager WHERE managerid = %s AND password = %s", (manager_id, manager_password))
                 result = cursor.fetchone()
-                                    #Manager Login
-                if result:
-                    display.print_c("Login successful\n","green")
-                    display.clear_screan()
-                    display.logo()
-                    display.manager_menu()
-                    choice = int(input("Enter choice here: "))
-                    while True:                            
-                        if choice == 1:
-                            manager.add_item_to_inventory()                            
-                        elif choice == 2:
-                            manager.remove_expired_items_from_directory()
-                        elif choice == 3:
-                            manager.update_item_price()
-                        elif choice == 4:
+                while True: 
+                    try:                   #Manager Login
+                        if result:
+                            display.print_c("Login successful\n","green")
                             display.clear_screan()
                             display.logo()
-                            print("Thank you for using our program!")
-                            exit()
+                            display.manager_menu()
+                            choice = int(input("Enter choice here: "))
+                                                        
+                            if choice == 1:
+                                manager.add_item_to_inventory()                            
+                            elif choice == 2:
+                                manager.remove_expired_items_from_directory()
+                            elif choice == 3:
+                                manager.update_item_price()
+                            elif choice == 4:
+                                display.clear_screan()
+                                display.logo()
+                                print("Thank you for using our program!")
+                                exit()
+                            else:
+                                display.print_c("Invalid credentials","red")
+                                time.sleep(delay)
+                                display.clear_screan()
+                                break
                         else:
+                            display.logo()
                             display.print_c("Invalid credentials","red")
-                            time.sleep(t)
+                            time.sleep(delay)
                             display.clear_screan()
                             break
+                    except ValueError:
+                        display.print_c("!Enter a valid value","red")
+                        time.sleep(delay)
+                        display.clear_screan()
             except ValueError:
                 display.print_c("!Enter a valid value","red")
-                time.sleep(t)
+                time.sleep(delay)
                 display.clear_screan()
             except mysql.connector.Error as err:
                 print("Error:", err)
-                time.sleep(t)
+                time.sleep(delay)
                 display.clear_screan()

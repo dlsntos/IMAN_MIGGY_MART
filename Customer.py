@@ -3,7 +3,7 @@ from tabulate import tabulate
 from Display import Display
 import time
 
-t = 1.5
+delay = 1.5 
 display = Display()
 
 class Customer:
@@ -78,10 +78,8 @@ class Customer:
         except mysql.connector.Error as err:
             print("Error:", err)
 
-    # This Function store the remove item query.
     def remove_item(self, product_id, cart_id):
         try:
-            # Delete item from cart
             self.cursor.execute( "DELETE FROM cart WHERE ProductID = %s AND cartID = %s", (product_id, cart_id,))
             self.cursor.execute( "UPDATE inventory SET Quantity = Quantity + 1 WHERE ProductID = %s", (product_id,))
             self.connection.commit()
@@ -90,7 +88,7 @@ class Customer:
         except mysql.connector.Error as err:
             print("Error:", err)
 
-    # This Function store the clear cart query.
+    # This Function stores the clear cart query.
     def exit_program_clear_cart(self):
             self.cursor.execute('delete from cart') 
             self.connection.commit() 
@@ -149,7 +147,7 @@ class Customer:
                         break
             else:
                 print("No items in the cart.")
-                time.sleep(t)
+                time.sleep(delay)
                 display.clear_screan()                                                  
         except mysql.connector.Error as err:
             print("Error:", err)
@@ -197,13 +195,13 @@ class Customer:
             customer_id = input("Enter Customer ID: ")
             if product_id == "" or customer_id == "" :
                 display.print_c("ID is required, Please try again","red")
-                time.sleep(t)
+                time.sleep(delay)
                 display.clear_screan()
             else:
                 self.add_cart(int(product_id), int(customer_id))
         except ValueError:
             display.print_c("\n!Enter a valid value","red")
-            time.sleep(t)
+            time.sleep(delay)
             display.clear_screan()
 
     def removeFromCart(self):
@@ -215,13 +213,13 @@ class Customer:
             cart_id = input("Enter Cart ID: ")
             if product_id == "" or cart_id == "" :
                 display.print_c("\nID is required, Please try again","red")
-                time.sleep(t)
+                time.sleep(delay)
                 display.clear_screan()
             else:
                 self.remove_item(int(product_id), int(cart_id))
         except ValueError:
             display.print_c("\n!Enter a valid value","red")
-            time.sleep(t)
+            time.sleep(delay)
             display.clear_screan()
     
     def showCategory(self):
@@ -236,7 +234,7 @@ class Customer:
         type_id = input("Enter a category here: ").lower()
         if type_id not in valid_types:
             display.print_c("Category not found","red")
-            time.sleep(t)
+            time.sleep(delay)
             display.clear_screan()
         else: 
             display.clear_screan()
