@@ -2,6 +2,7 @@ import mysql.connector
 from tabulate import tabulate
 from Display import Display
 import time
+
 t = 1.5
 display = Display()
 
@@ -11,7 +12,8 @@ class Customer:
         self.connection = mysql.connector.connect(host="localhost", user="root",password="", database="miggymart")  #connection attribute
         self.cursor = self.connection.cursor()
     
-    #Functions used to execute queries
+    # This Function store the register query.
+
     def registration(self,customer_id,customer_name,customer_age,customer_contactNum,customer_state,customer_city,customer_email,customer_balance,customer_password):
         try:
             self.cursor.execute(
@@ -28,9 +30,11 @@ class Customer:
             print("\n[Customer ID is already taken]")
             self.connection.rollback()
 
+    # This Function store the retrieve cart query.
     def retrieve_cart(self):
         display.clear_screan()
         display.logo()
+
         try:
             self.cursor.execute('select * from cart')                                                                      #Command for subqueries
             cart = self.cursor.fetchall()
@@ -41,10 +45,10 @@ class Customer:
             display.clear_screan()
             print(tabulate(rows, headers=headers, tablefmt='grid'))                                                        #call tabulate import, format table display and print
             
-        #Catches a Index outbound exception
         except IndexError:
             display.print_c("Everything is now printed","green")
 
+    # This Function store the add to cart query.
     def add_cart(self, product_id, customer_id):
         try:
             self.cursor.execute("SELECT MAX(cartID) FROM cart")
@@ -58,7 +62,7 @@ class Customer:
             item = self.cursor.fetchone()
 
             if item:
-                description, item_type, price, expiration_date, quantity = item                                                                                 #tuple checking, most of these arent used, quantity > 0 wont work if there are no other variables
+                description, item_type, price, expiration_date, quantity = item #used for tuple checking, most of these arent used, quantity > 0 wont work if there are no other variables
                 if quantity > 0:                                                                                                                            
                     self.cursor.execute("INSERT INTO cart (cartID, ProductID, description, type, expirationdate, price, Quantity, CustomerID) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (cartID, product_id, item[0], item[1], item[3], item[4], 1, customer_id))  #adds item to cart
                     self.cursor.execute("UPDATE inventory SET Quantity = Quantity - 1 WHERE ProductID = %s", (product_id,))
@@ -74,6 +78,7 @@ class Customer:
         except mysql.connector.Error as err:
             print("Error:", err)
 
+    # This Function store the remove item query.
     def remove_item(self, product_id, cart_id):
         try:
             # Delete item from cart
@@ -85,11 +90,13 @@ class Customer:
         except mysql.connector.Error as err:
             print("Error:", err)
 
+    # This Function store the clear cart query.
     def exit_program_clear_cart(self):
             self.cursor.execute('delete from cart') 
             self.connection.commit() 
             display.print_c("\nCart Cleared!","green")
 
+    # This Function store the retrieve inventory.
     def retrieve_inventory(self):
         try:
             self.cursor.execute("SELECT MAX(cartID) FROM cart")
@@ -163,6 +170,7 @@ class Customer:
             self.connection.commit()
             display.clear_screan() 
             display.print_c("\nCart Cleared!","green")
+
 
     #Customer Functions used in Menus class
     def customerRegistration(self):

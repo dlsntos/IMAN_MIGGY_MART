@@ -4,8 +4,8 @@ import os
 
 class Display:
     #function to generate color
-    def print_c(self,text, color):#changes color of a single line of string
-        colorama.init()#this function is used to initialize the colorama package and for the colors to appear in the exe file
+    def print_c(self, text, color):# changes color of a single line of string
+        colorama.init()# this function is used to initialize the colorama package and for the colors to appear in the exe file
         colored_text = getattr(Fore, color.upper()) + text + colorama.Fore.RESET
         print(colored_text)
 

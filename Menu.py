@@ -8,10 +8,10 @@ display = Display()
 customer = Customer()
 manager = Manager()
 t = 1.2
-mysqlconnect = mysql.connector.connect(host="localhost", user="root",password="", database="miggymart")
+mysqlconnect = mysql.connector.connect(host = "localhost", user = "root",password = "", database = "miggymart")
 cursor = mysqlconnect.cursor()
 
-class Menus:
+class Menu:
     def customer(self):
         display.clear_screan()
         display.logo()

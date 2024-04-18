@@ -1,10 +1,15 @@
 from Display import Display
-from Menus import Menus
+from Menu import Menu
+
 import winsound
 import time
-menu = Menus()
+
+menu = Menu()
+
 t = 1.2 
+
 winsound.PlaySound("music.wav", winsound.SND_LOOP + winsound.SND_ASYNC)
+
 display = Display()
 
 while True:
