@@ -10,7 +10,7 @@ class Manager:
         self.connection = mysql.connector.connect(host="localhost", user="root",password="", database="miggymart")  #connection attribute
         self.cursor = self.connection.cursor()
 
-    #Queries
+    # this function stores the add item query
     def add_item(self, productID, product_description, product_type, price, date, quantity):
         try:
             self.cursor.execute("INSERT INTO inventory (ProductID, Description, Type, Price, ExpirationDate, Quantity) "
@@ -20,7 +20,7 @@ class Manager:
             display.print_c("\nAdded to inventory successfully","green")
         except mysql.connector.Error as err:
             print("Error:", err)
-    #Queries
+    # this function stores the remove item query
     def remove_item(self, productID):
         try:
              self.cursor.execute("DELETE FROM inventory "
@@ -30,7 +30,7 @@ class Manager:
              display.print_c("\nItem removed successfully","green")
         except mysql.connector.Error as err:
             print("Error:", err)
-    #Queries
+    # this function stores the update price query
     def update_price(self, productID, price):
         try:
             self.cursor.execute("UPDATE inventory "
@@ -44,6 +44,7 @@ class Manager:
     
 
     #Manager Functions
+    #this function is for manager login
     def login(self):
         display.clear_screan()
         display.logo()
@@ -53,9 +54,11 @@ class Manager:
         self.cursor.execute("SELECT * FROM manager WHERE managerid = %s AND password = %s", (manager_id, manager_password))
         return self.cursor.fetchone()
     
+    #this function is for add item to inventory
     def add_item_to_inventory(self):
         display.clear_screan()
         display.logo()
+        print("\n[ ADD TO INVENTORY ]\n")
         productID = int(input("Enter Product ID: "))
         product_description = input("Enter Product Description: ")
         product_type = input("Enter Product type: ")
@@ -64,15 +67,19 @@ class Manager:
         quantity = int(input("Enter Quantity: "))
         self.add_item(productID,product_description,product_type,price,date,quantity)
 
+    #this function is remove items to inventory
     def remove_expired_items_from_directory(self):
         display.clear_screan()
         display.logo()
+        print("\n[ REMOVE ITEM FROM INVENTORY ]\n")
         productID = int(input("Enter Product ID: "))
         self.remove_expired_items_from_directory(productID)
     
+    #this function is for update item price to inventory
     def update_item_price(self):
         display.clear_screan()
         display.logo()
+        print("\n[ UPDATE PRICE ]\n")
         productID = int(input("Enter Product ID: "))
         price = float(input("Enter Updated Product price: "))
         self.update_item_price(productID, price)

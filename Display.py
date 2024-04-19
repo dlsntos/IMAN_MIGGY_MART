@@ -1,7 +1,7 @@
 from colorama import Fore
 import colorama
 import os
-""""""
+
 class Display:
     #this function changes the color of a single line of string
     def print_c(self, text, color):
@@ -26,7 +26,7 @@ class Display:
         ╚═╝░░░░░╚═╝╚═╝░╚═════╝░░╚═════╝░░░░╚═╝░░░  ╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░\n{Fore.RESET}"""
         print(logo)
 
-    #this function stores the starting menu screen
+    #this function stores the starting menu screen display
     def start_menu(self):
         colorama.init()
         menu = (f"{Fore.BLUE}"
@@ -38,7 +38,7 @@ class Display:
         self.logo()
         print(menu)
 
-    # this function stores the registration and login menu for customers
+    # this function stores the registration and login menu display for customers
     def registration_menu(self):
         colorama.init()
         self.logo()
@@ -50,7 +50,7 @@ class Display:
                f"{Fore.RESET}")
         print(menu)
 
-    #this function stores the main customer menu
+    #this function stores the main customer menu display
     def customer_menu(self):
         menu = (f"{Fore.BLUE}"
                 f"\nCustomer Cart:"
@@ -67,7 +67,7 @@ class Display:
         self.logo()
         print(menu)
 
-    #
+    # this function stores the Manager menu display
     def manager_menu(self):
         menu =(f"{Fore.BLUE}"
                f"\n[ ADMIN ACCESS !!! ]\n"
