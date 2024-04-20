@@ -42,7 +42,6 @@ class Manager:
         except mysql.connector.Error as err:
             print("Error:", err)
     
-
     #Manager Functions
     #this function is for manager login
     def login(self):
@@ -73,7 +72,7 @@ class Manager:
         display.logo()
         print("\n[ REMOVE ITEM FROM INVENTORY ]\n")
         productID = int(input("Enter Product ID: "))
-        self.remove_expired_items_from_directory(productID)
+        self.remove_item(productID)
     
     #this function is for update item price to inventory
     def update_item_price(self):
@@ -82,7 +81,7 @@ class Manager:
         print("\n[ UPDATE PRICE ]\n")
         productID = int(input("Enter Product ID: "))
         price = float(input("Enter Updated Product price: "))
-        self.update_item_price(productID, price)
+        self.update_price(productID, price)
 
 
             
