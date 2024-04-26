@@ -3,9 +3,9 @@
 This is a simple CRUD CLI APP with database implementation using the mysql database for our IMAN Final Project. 
 
 
-Members:
-Kevin Zeke Ramos
-Kurt Marten Sardes
-Dean Louis Santos
-Juan Miguel II Soriano
+Members:<br>
+Kevin Zeke Ramos<br>
+Kurt Marten Sardes<br>
+Dean Louis Santos<br>
+Juan Miguel II Soriano<br>
  
